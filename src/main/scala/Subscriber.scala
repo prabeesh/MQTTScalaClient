@@ -21,20 +21,20 @@ object subscriber {
 
   def main(args: Array[String]) {
 
-    val brokerUrl: String = "tcp://mqttbrokerUrl:1883";
-    val topic: String = "hello";
+    val brokerUrl: String = "tcp://mqttbrokerUrl:1883"
+    val topic: String = "hello"
 
     //Set up persistence for messages 
-    var peristance: MqttClientPersistence = new MemoryPersistence();
+    var peristance: MqttClientPersistence = new MemoryPersistence()
 
     //Initializing Mqtt Client specifying brokerUrl, clientID and MqttClientPersistance
-    var client: MqttClient = new MqttClient(brokerUrl, "MQTTSub", peristance);
+    var client: MqttClient = new MqttClient(brokerUrl, "MQTTSub", peristance)
 
     //Connect to MqttBroker    
-    client.connect();
+    client.connect()
 
     //Subscribe to Mqtt topic
-    client.subscribe(topic);
+    client.subscribe(topic)
 
     //Callback automatically triggers as and when new message arrives on specified topic
     var callback: MqttCallback = new MqttCallback() {
