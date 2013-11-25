@@ -28,7 +28,7 @@ object subscriber {
     var peristance: MqttClientPersistence = new MemoryPersistence()
 
     //Initializing Mqtt Client specifying brokerUrl, clientID and MqttClientPersistance
-    var client: MqttClient = new MqttClient(brokerUrl, "MQTTSub", peristance)
+    var client: MqttClient = new MqttClient(brokerUrl, MqttClient.generateClientId(), peristance)
 
     //Connect to MqttBroker    
     client.connect()
