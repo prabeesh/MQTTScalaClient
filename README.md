@@ -1,4 +1,4 @@
-MqttClient
+MQTTScalaClient
 ==========
 
 MQTT Scala Publisher and Subscriber using Eclipse Paho
