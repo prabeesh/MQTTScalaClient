@@ -21,7 +21,7 @@ object Publisher {
 
   def main(args: Array[String]) {
 
-    val brokerUrl: String = "tcp://mqttbrokerUrl:1883"
+    val brokerUrl: String = "tcp://10.30.9.67:1883"
     val topic: String = "hello"
 
     try {
