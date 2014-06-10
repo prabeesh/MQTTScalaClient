@@ -18,6 +18,7 @@ import org.eclipse.paho.client.mqttv3.MqttTopic
 object Publisher {
 
   var client: MqttClient = _
+
   def main(args: Array[String]) {
 
     val brokerUrl: String = "tcp://mqttbrokerUrl:1883"
@@ -25,10 +26,10 @@ object Publisher {
 
     try {
       // Creating new persistence for mqtt client
-      var peristance: MqttClientPersistence = new MqttDefaultFilePersistence("/tmp")
+      val persistence: MqttClientPersistence = new MqttDefaultFilePersistence("/tmp")
 
       // mqtt client with specific url and client id
-      client = new MqttClient(brokerUrl, MqttClient.generateClientId(), peristance)
+      client = new MqttClient(brokerUrl, MqttClient.generateClientId(), persistence)
 
       client.connect()
 
@@ -45,9 +46,9 @@ object Publisher {
       val message: MqttMessage = new MqttMessage(String.valueOf(msg).getBytes())
       msgTopic.publish(message);
       println("Published data. Topic: " + msgTopic.getName() + " Message: " + msg)
-      Thread.sleep(100);
+      Thread.sleep(100)
     }
-    client.disconnect();
+    client.disconnect()
 
   }
 }

@@ -15,20 +15,20 @@ import org.eclipse.paho.client.mqttv3.MqttMessage
  *
  */
 
-object subscriber {
+object Subscriber {
 
   var client: MqttClient = _
 
   def main(args: Array[String]) {
 
-    val brokerUrl: String = "tcp://mqttbrokerUrl:1883"
+    val brokerUrl: String = "tcp://mqttbroker:1883"
     val topic: String = "hello"
 
     //Set up persistence for messages 
-    var peristance: MqttClientPersistence = new MemoryPersistence()
+    val persistence: MqttClientPersistence = new MemoryPersistence()
 
     //Initializing Mqtt Client specifying brokerUrl, clientID and MqttClientPersistance
-    var client: MqttClient = new MqttClient(brokerUrl, MqttClient.generateClientId(), peristance)
+    val client: MqttClient = new MqttClient(brokerUrl, MqttClient.generateClientId(), persistence)
 
     //Connect to MqttBroker    
     client.connect()
@@ -37,11 +37,11 @@ object subscriber {
     client.subscribe(topic)
 
     //Callback automatically triggers as and when new message arrives on specified topic
-    var callback: MqttCallback = new MqttCallback() {
+    val callback: MqttCallback = new MqttCallback() {
 
       //Handles Mqtt message 
       override def messageArrived(arg0: String, arg1: MqttMessage) {
-        println(new String(arg1.getPayload()));
+        println(new String(arg1.getPayload()))
       }
 
       override def deliveryComplete(arg0: IMqttDeliveryToken) {
@@ -52,10 +52,10 @@ object subscriber {
 
       }
 
-    };
+    }
 
     //Set up callback for MqttClient
-    client.setCallback(callback);
+    client.setCallback(callback)
 
   }
 }
