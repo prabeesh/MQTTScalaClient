@@ -17,7 +17,7 @@ object Publisher {
 
   def main(args: Array[String]) {
 
-    val brokerUrl = "tcp://10.30.9.105:1883"
+    val brokerUrl = "tcp://brokerUrl:1883"
     val topic = "hello"
 
 
