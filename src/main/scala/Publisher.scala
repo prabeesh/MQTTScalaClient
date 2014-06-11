@@ -17,30 +17,33 @@ object Publisher {
 
   def main(args: Array[String]) {
 
-    val brokerUrl = "tcp://brokerUrl:1883"
+    val brokerUrl = "tcp://10.31.0.38:1883"
     val topic = "hello"
-
-
+    val msg = "Hello world test data"
     // Creating new persistence for mqtt client
     val persistence = new MqttDefaultFilePersistence("/tmp")
 
-    // mqtt client with specific url and client id
-    val client: MqttClient = new MqttClient(brokerUrl, MqttClient.generateClientId, persistence)
-    client connect()
+    try {
+      // mqtt client with specific url and client id
+      val client: MqttClient = new MqttClient(brokerUrl, MqttClient.generateClientId, persistence)
+      client connect()
 
-    val msgTopic = client.getTopic(topic)
+      val msgTopic = client.getTopic(topic)
 
-    val msg = "Mqtt publisher test data"
+      while (true) {
 
-    while (true) {
+        val message = new MqttMessage(msg.getBytes("utf-8"))
+        msgTopic.publish(message)
+        println("Publishing Data, Topic : %s, Message : %s".format(msgTopic.getName, message))
+        Thread.sleep(100)
 
-      val message = new MqttMessage(msg.getBytes)
-      msgTopic.publish(message)
-      println("Published data. Topic: " + msgTopic.getName + " Message: " + msg)
-      Thread.sleep(100)
+      }
+      client.disconnect()
+    }
 
-   }
-    client.disconnect()
+    catch {
+      case e: MqttException => println("Exception Caught: " + e)
+    }
 
   }
 }

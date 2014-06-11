@@ -15,7 +15,7 @@ object Subscriber {
 
   def main(args: Array[String]) {
 
-    val brokerUrl = "tcp://brokerUrl:1883"
+    val brokerUrl = "tcp://10.31.0.38:1883"
     val topic = "hello"
 
     //Set up persistence for messages 
@@ -33,13 +33,13 @@ object Subscriber {
     //Callback automatically triggers as and when new message arrives on specified topic
     val callback = new MqttCallback {
 
-      override def messageArrived(topic: String, message: MqttMessage): Unit = println(message.toString)
-
-      override def connectionLost(cause: Throwable): Unit = cause.printStackTrace()
-
-      override def deliveryComplete(token: IMqttDeliveryToken): Unit = {
-
+      override def messageArrived(topic: String, message: MqttMessage): Unit = {
+        println("Receiving Data, Topic : %s, Message : %s".format(topic, message))
       }
+
+      override def connectionLost(cause: Throwable): Unit = println(cause)
+
+      override def deliveryComplete(token: IMqttDeliveryToken): Unit = {}
     }
 
     //Set up callback for MqttClient
