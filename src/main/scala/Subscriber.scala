@@ -15,7 +15,7 @@ object Subscriber {
 
   def main(args: Array[String]) {
 
-    val brokerUrl = "tcp://10.31.0.38:1883"
+    val brokerUrl = "tcp://mqttBrokerUrl:1883"
     val topic = "hello"
 
     //Set up persistence for messages 
