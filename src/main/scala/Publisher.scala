@@ -17,7 +17,7 @@ object Publisher {
 
   def main(args: Array[String]) {
 
-    val brokerUrl = "tcp://mqqtBrokerUrl:1883"
+    val brokerUrl = "tcp://mqttBrokerUrl:1883"
     val topic = "hello"
     val msg = "Hello world test data"
     // Creating new persistence for mqtt client
