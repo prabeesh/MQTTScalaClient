@@ -15,8 +15,8 @@ object Subscriber {
 
   def main(args: Array[String]) {
 
-    val brokerUrl = "tcp://mqttBrokerUrl:1883"
-    val topic = "hello"
+    val brokerUrl = "tcp://localhost:1883"
+    val topic = "foo"
 
     //Set up persistence for messages 
     val persistence = new MemoryPersistence
@@ -37,9 +37,13 @@ object Subscriber {
         println("Receiving Data, Topic : %s, Message : %s".format(topic, message))
       }
 
-      override def connectionLost(cause: Throwable): Unit = println(cause)
+      override def connectionLost(cause: Throwable): Unit = {
+         println(cause)
+       }
 
-      override def deliveryComplete(token: IMqttDeliveryToken): Unit = {}
+      override def deliveryComplete(token: IMqttDeliveryToken): Unit = {
+
+      }
     }
 
     //Set up callback for MqttClient
