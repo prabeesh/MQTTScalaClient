@@ -1,5 +1,7 @@
 package main.scala
 
+import resource._
+
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttException
 import org.eclipse.paho.client.mqttv3.MqttMessage
@@ -17,36 +19,25 @@ object Publisher {
 
   def main(args: Array[String]) {
     val brokerUrl = "tcp://localhost:1883"
+    // Creating new persistence for mqtt client
+    val persistence = new MqttDefaultFilePersistence("/tmp")
+    
+    // mqtt client with specific url and client id
+    val client = managed(new MqttClient(brokerUrl, MqttClient.generateClientId, persistence)).map(x => {
     val topic = "foo"
     val msg = "Hello world test data"
 
-    var client: MqttClient = null
+    x.connect()
 
-    // Creating new persistence for mqtt client
-    val persistence = new MqttDefaultFilePersistence("/tmp")
+    val msgTopic = x.getTopic(topic)
+    val message = new MqttMessage(msg.getBytes("utf-8"))
 
-    try {
-      // mqtt client with specific url and client id
-      client = new MqttClient(brokerUrl, MqttClient.generateClientId, persistence)
-
-      client.connect()
-
-      val msgTopic = client.getTopic(topic)
-      val message = new MqttMessage(msg.getBytes("utf-8"))
-
-      while (true) {
-        msgTopic.publish(message)
-        println("Publishing Data, Topic : %s, Message : %s".format(msgTopic.getName, message))
-        Thread.sleep(100)
-      }
+    while (true) {
+      msgTopic.publish(message)
+      println("Publishing Data, Topic : %s, Message : %s".format(msgTopic.getName, message))
+      Thread.sleep(100)
     }
-
-    catch {
-      case e: MqttException => println("Exception Caught: " + e)
-    }
-
-    finally {
-      client.disconnect()
-    }
-  }
+   }).opt
+  
+   }
 }
