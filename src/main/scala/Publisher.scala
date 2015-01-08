@@ -23,21 +23,23 @@ object Publisher {
     val persistence = new MqttDefaultFilePersistence("/tmp")
     
     // mqtt client with specific url and client id
-    val client = managed(new MqttClient(brokerUrl, MqttClient.generateClientId, persistence)).map(x => {
-    val topic = "foo"
-    val msg = "Hello world test data"
+    val client = managed(new MqttClient(
+                              brokerUrl, MqttClient.generateClientId, persistence))
+                              .map(x => {
+                                        val topic = "foo"
+                                        val msg = "Hello world test data"
 
-    x.connect()
+                                        x.connect()
 
-    val msgTopic = x.getTopic(topic)
-    val message = new MqttMessage(msg.getBytes("utf-8"))
+                                        val msgTopic = x.getTopic(topic)
+                                        val message = new MqttMessage(msg.getBytes("utf-8"))
 
-    while (true) {
-      msgTopic.publish(message)
-      println("Publishing Data, Topic : %s, Message : %s".format(msgTopic.getName, message))
-      Thread.sleep(100)
-    }
-   }).opt
-  
-   }
+                                        while (true) {
+                                          msgTopic.publish(message)
+                                          println("Publishing Data, Topic : %s, Message : %s"
+                                            .format(msgTopic.getName, message))
+                                          Thread.sleep(100)
+                                        }
+                        }).opt
+  }
 }
