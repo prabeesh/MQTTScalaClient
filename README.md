@@ -14,4 +14,4 @@ sudo apt-get install mosquitto
 
 Eclipse Paho is one mqtt client work well with mosquitto. You may read more about it [here](http://www.eclipse.org/paho/).
 
-For more details refer (this post)[http://blog.prabeeshk.com/blog/2013/08/26/mqtt-scala-publisher-and-subscriber/]
+For more details refer [this post](http://blog.prabeeshk.com/blog/2013/08/26/mqtt-scala-publisher-and-subscriber/)
